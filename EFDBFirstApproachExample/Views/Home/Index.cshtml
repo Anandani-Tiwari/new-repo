@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Home</h2>
+<label for="color">Cap Color:</label>
+@(Html.Kendo().DropDownList()
+          .Name("color")
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Events(e => e.Change("change"))
+          .BindTo(new List<SelectListItem>() {
+              new SelectListItem() {
+                  Text = "Black",
+                  Value = "1"
+              },
+              new SelectListItem() {
+                  Text = "Orange",
+                  Value = "2"
+              },
+              new SelectListItem() {
+                  Text = "Grey",
+                  Value = "3"
+              }
+          })
+          .Value("1")
+          .HtmlAttributes(new { style = "width: 100%" })
+        )
+
+@(Html.Kendo().Grid<EFDBFirstApproachExample.Models.Product>()
+          .Name("productGrid")
+          .Columns(columns=>
+          {
+              columns.Bound(c => c.ProductName);
+          })
+          .DataSource(dataSource=>dataSource
+          .Ajax()
+          .Read(read=>read.Action("pp","Home"))
+          )
+            )
+
+
+<style>
+    #cap {
+        width: 242px;
+        height: 225px;
+        margin: 20px auto;
+       
+        background-repeat: no-repeat;
+        background-color: transparent;
+    }
+    .black-cap {
+        background-position: 0 0;
+    }
+    .grey-cap {
+        background-position: 0 -225px;
+    }
+    .orange-cap {
+        background-position: 0 -450px;
+    }
+</style>
+
+<script>
+    function change() {
+        var value = $("#color").val();
+        $("#cap")
+            .toggleClass("black-cap", value == 1)
+            .toggleClass("orange-cap", value == 2)
+            .toggleClass("grey-cap", value == 3);
+    };
+
+    $(document).ready(function () {
+        $("#get").click(function () {
+            var color = $("#color").data("kendoDropDownList"),
+                size = $("#size").data("kendoDropDownList");
+
+            alert('Thank you! Your Choice is:\n\nColor ID: ' + color.value() + ' and Size: ' + size.value());
+        });
+    });
+</script>

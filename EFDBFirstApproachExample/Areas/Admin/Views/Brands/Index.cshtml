@@ -1,0 +1,21 @@
+﻿@model List<EFDBFirstApproachExample.Models.Brand>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage1.cshtml";
+}
+
+<h2>Index</h2>
+
+<table class="table table-striped">
+    <tr>
+        <td>BrandName</td>
+        <td>BrandID</td>
+    </tr>
+    @foreach (var brand in Model)
+    {
+        <tr>
+            <td>@brand.BrandName</td>
+            <td>@brand.BrandID</td>
+        </tr>
+    }
+</table>
